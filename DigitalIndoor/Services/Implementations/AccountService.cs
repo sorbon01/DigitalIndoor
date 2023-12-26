@@ -20,19 +20,22 @@ namespace DigitalIndoor.Services.Implementations
         readonly IPasswordHasher<BaseUser> passwordHasher;
         readonly Context context;
         readonly IMapper mapper;
+        readonly IServiceProvider serviceProvider;
 
 
         public AccountService(
             IOptions<JwtOptions> options,
             IPasswordHasher<BaseUser> passwordHasher,
             Context context,
-            IMapper mapper
+            IMapper mapper,
+            IServiceProvider serviceProvider
             )
         {
             this.options = options.Value;
             this.passwordHasher = passwordHasher;
             this.context = context;
             this.mapper = mapper;
+            this.serviceProvider = serviceProvider;
         }
         public JsonWebTokenDto SignIn(SignInDto signInObj)
         {
@@ -87,6 +90,18 @@ namespace DigitalIndoor.Services.Implementations
             {
                 context.Remove(refreshTokenObj);
                 context.SaveChanges();
+            }
+        }
+
+        public void SignOut()
+        {
+            using(var scope = serviceProvider.CreateScope())
+            {
+                var tokenManager = scope.ServiceProvider.GetService<ITokenManager>();
+                var httpContextAccessor = scope.ServiceProvider.GetService<IHttpContextAccessor>();
+                var username = httpContextAccessor.HttpContext.User.Identity.Name;
+                RevokeRefreshToken(username);
+                tokenManager.DeactivateCurrentAsync().Wait();
             }
         }
 

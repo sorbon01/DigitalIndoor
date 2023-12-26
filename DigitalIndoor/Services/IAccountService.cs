@@ -8,5 +8,7 @@ namespace DigitalIndoor.Services
         JsonWebTokenDto SignIn(SignInDto signInObj);
         JsonWebTokenDto RefreshAccessToken(string refreshToken);
         void RevokeRefreshToken(string username);
+        void SignOut();
+
     }
 }

@@ -36,12 +36,9 @@ namespace DigitalIndoor.Controllers
 
         [HttpPost("sign-out")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> SignOutAsync()
-        {
-            accountService.RevokeRefreshToken(Username);
-            await tokenManager.DeactivateCurrentAsync();
-            return Ok();
-        }
+        public void SignOut()
+            => accountService.SignOut();
+        
 
 
         [AllowAnonymous]
