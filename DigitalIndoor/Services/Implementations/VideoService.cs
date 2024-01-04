@@ -42,7 +42,7 @@ namespace DigitalIndoor.Services.Implementations
 
             return new PagedList<Video, VideoViewDto>(items, count, param.Page, param.Size, mapper);
         }
-        public async Task<VideoViewDto> AddAsync(VideoCreateDto create, string username)
+        public async Task<VideoViewDto> AddAsync(VideoCreateDto create)
         {
             if (create.File == null || create.File.Length <= 0)
                 throw new ToException(ToErrors.FILE_IS_EMPTY);
@@ -51,7 +51,7 @@ namespace DigitalIndoor.Services.Implementations
             {
                 Name = create.Name,
                 Size = create.File.Length,
-                User = await userService.GetByUsernameAsync(username),
+                User = await userService.GetCurrentAsync(),
                 IsDeleted = true
             };
 

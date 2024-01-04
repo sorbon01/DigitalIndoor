@@ -12,9 +12,8 @@ namespace DigitalIndoor.Services
         Task<UserViewDto> AddAsync(UserCreateDto create);
         Task<UserViewDto> UpdateAsync(UserUpdateDto update);
         Task<UserViewDto> DeleteAsync(int id);
-        Task<UserViewDto> GetByIdAsync(int id);
-        Task<UserInfoDto> GetUserInfoAsync(string username);
-        Task<User> GetByUsernameAsync(string username);
+        Task<UserInfoDto> GetUserInfoAsync();
+        Task<User> GetCurrentAsync();
         Task<UserViewDto> ChangePasswordAsync(ChangePasswordDto changeObj, string username);
     }
 }

@@ -9,7 +9,7 @@ namespace DigitalIndoor.Services
     public interface IVideoService
     {
         Task<PagedList<Video, VideoViewDto>> SearchAsync(NameDatePagedParam param);
-        Task<VideoViewDto> AddAsync(VideoCreateDto create, string username);
+        Task<VideoViewDto> AddAsync(VideoCreateDto create);
         Task<VideoViewDto> UpdateAsync(VideoUpdateDto update);
         Task<VideoViewDto> DeleteAsync(int id);
     }
