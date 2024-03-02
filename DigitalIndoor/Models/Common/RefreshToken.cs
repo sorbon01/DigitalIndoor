@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace DigitalIndoor.Models.Common
+namespace DigitalIndoorAPI.Models.Common
 {
     public class RefreshToken
     {

@@ -1,6 +1,6 @@
-﻿using DigitalIndoor.Models.Abstraction;
+﻿using DigitalIndoorAPI.Models.Abstraction;
 
-namespace DigitalIndoor.Models.Common
+namespace DigitalIndoorAPI.Models.Common
 {
     public class User : DbRecord
     {

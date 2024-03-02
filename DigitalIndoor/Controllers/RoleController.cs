@@ -1,45 +1,22 @@
-﻿using DigitalIndoor.DTOs;
-using DigitalIndoor.DTOs.Params;
-using DigitalIndoor.DTOs.Request;
-using DigitalIndoor.DTOs.Response;
-using DigitalIndoor.Models.Common;
-using DigitalIndoor.Services;
+﻿using DigitalIndoorAPI.Controllers.Base;
+using DigitalIndoorAPI.DTOs.Params;
+using DigitalIndoorAPI.DTOs.Request;
+using DigitalIndoorAPI.DTOs.Response;
+using DigitalIndoorAPI.Models.Common;
+using DigitalIndoorAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DigitalIndoor.Controllers
+namespace DigitalIndoorAPI.Controllers
 {
-    public class RoleController : BaseController
+    public class RoleController : CrudBaseController<IRoleService, Role, RoleViewDto, RoleParam, RoleCreateDto, RoleUpdateDto>
     {
-        readonly IRoleService roleService;
-
-        public RoleController(IRoleService roleService)
-            => this.roleService = roleService;
-
-
-        [HttpGet]
-        [ProducesResponseType(typeof(PagedList<Role, RoleViewDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAsync([FromQuery] NameAndPagedParam param)
-            => Ok(await roleService.SearchAsync(param));
-
-        [HttpPost]
-        [ProducesResponseType(typeof(RoleViewDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddAsync([FromBody] RoleCreateDto create)
-            => Ok(await roleService.AddAsync(create));
-
-        [HttpPut]
-        [ProducesResponseType(typeof(RoleViewDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateAsync([FromBody] RoleUpdateDto update)
-            => Ok(await roleService.UpdateAsync(update));
-
-        [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(RoleViewDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> DeleteAsync(int id)
-             => Ok(await roleService.DeleteAsync(id));
+        public RoleController(IRoleService service) : base(service)
+        {
+        }
 
         [HttpGet("functionals")]
-        [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
-        public IActionResult GetFunctionals()
-            => Ok(roleService.GetAllFunctionals());
+        public ActionResult<List<string>> GetFunctionals()
+            => Ok(service.GetAllFunctionals());
 
     }
 }

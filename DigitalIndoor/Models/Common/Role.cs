@@ -1,7 +1,7 @@
-﻿using DigitalIndoor.Models.Abstraction;
+﻿using DigitalIndoorAPI.Models.Abstraction;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DigitalIndoor.Models.Common
+namespace DigitalIndoorAPI.Models.Common
 {
     public class Role : DbRecord
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DigitalIndoor.DTOs.Request
+namespace DigitalIndoorAPI.DTOs.Request
 {
     public class SignInDto
     {

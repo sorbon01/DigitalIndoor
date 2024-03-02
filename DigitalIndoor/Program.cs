@@ -1,10 +1,10 @@
-using DigitalIndoor.DTOs.Response;
-using DigitalIndoor.Mapping;
-using DigitalIndoor.Middlewares;
-using DigitalIndoor.Models.DB;
-using DigitalIndoor.Models.Options;
-using DigitalIndoor.Services;
-using DigitalIndoor.Services.Implementations;
+using DigitalIndoorAPI.DTOs.Response;
+using DigitalIndoorAPI.Mapping;
+using DigitalIndoorAPI.Middlewares;
+using DigitalIndoorAPI.Models.DB;
+using DigitalIndoorAPI.Models.Options;
+using DigitalIndoorAPI.Services;
+using DigitalIndoorAPI.Services.Implementations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

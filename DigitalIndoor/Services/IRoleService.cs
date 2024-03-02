@@ -1,17 +1,15 @@
-﻿using DigitalIndoor.DTOs;
-using DigitalIndoor.DTOs.Params;
-using DigitalIndoor.DTOs.Request;
-using DigitalIndoor.DTOs.Response;
-using DigitalIndoor.Models.Common;
+﻿using DigitalIndoorAPI.DTOs;
+using DigitalIndoorAPI.DTOs.Params;
+using DigitalIndoorAPI.DTOs.Request;
+using DigitalIndoorAPI.DTOs.Response;
+using DigitalIndoorAPI.Models.Common;
+using DigitalIndoorAPI.DTOs.Params;
+using DigitalIndoorAPI.Services;
 
-namespace DigitalIndoor.Services
+namespace DigitalIndoorAPI.Services
 {
-    public interface IRoleService
+    public interface IRoleService:ICrudService<Role, RoleViewDto, RoleParam, RoleCreateDto, RoleUpdateDto>
     {
-        Task<PagedList<Role, RoleViewDto>> SearchAsync(NameAndPagedParam param);
-        Task<RoleViewDto> AddAsync(RoleCreateDto create);
-        Task<RoleViewDto> UpdateAsync(RoleUpdateDto update);
-        Task<RoleViewDto> DeleteAsync(int id);
         IList<string> GetAllFunctionals();
     }
 }

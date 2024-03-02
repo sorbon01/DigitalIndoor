@@ -1,9 +1,9 @@
-﻿using DigitalIndoor.DTOs.Response;
-using DigitalIndoor.Exceptions;
-using DigitalIndoor.Services;
+﻿using DigitalIndoorAPI.DTOs.Response;
+using DigitalIndoorAPI.Exceptions;
+using DigitalIndoorAPI.Services;
 using System.Text.Json;
 
-namespace DigitalIndoor.Middlewares
+namespace DigitalIndoorAPI.Middlewares
 {
     public class ErrorHandlerMiddleware
     {

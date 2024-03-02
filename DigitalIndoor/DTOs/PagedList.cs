@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace DigitalIndoor.DTOs
+namespace DigitalIndoorAPI.DTOs
 {
     public class PagedList<I, O>
     {

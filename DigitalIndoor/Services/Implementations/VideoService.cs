@@ -1,16 +1,14 @@
 ﻿using AutoMapper;
-using DigitalIndoor.DTOs;
-using DigitalIndoor.DTOs.Params;
-using DigitalIndoor.DTOs.Request;
-using DigitalIndoor.DTOs.Response;
-using DigitalIndoor.Exceptions;
-using DigitalIndoor.Models;
-using DigitalIndoor.Models.Common;
-using DigitalIndoor.Models.DB;
+using DigitalIndoorAPI.DTOs;
+using DigitalIndoorAPI.DTOs.Params;
+using DigitalIndoorAPI.DTOs.Request;
+using DigitalIndoorAPI.DTOs.Response;
+using DigitalIndoorAPI.Exceptions;
+using DigitalIndoorAPI.Models;
+using DigitalIndoorAPI.Models.DB;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace DigitalIndoor.Services.Implementations
+namespace DigitalIndoorAPI.Services.Implementations
 {
     public class VideoService : IVideoService
     {
@@ -25,9 +23,9 @@ namespace DigitalIndoor.Services.Implementations
             this.mapper = mapper;
         }
 
-        public async Task<PagedList<Video, VideoViewDto>> SearchAsync(NameDatePagedParam param)
+        public async Task<PagedList<Video, VideoViewDto>> SearchAsync(VideoParam param)
         {
-            param.ToDate = param.ToDate.HasValue ? param.ToDate.Value.AddDays(1) : null;
+            param.ToDate = param.ToDate ?? param.ToDate.Value.AddDays(1);
 
             var query = context.Videos
                 .Include(x => x.User)
@@ -37,21 +35,23 @@ namespace DigitalIndoor.Services.Implementations
                 (!param.ToDate.HasValue || x.RecordDate < param.ToDate))
                 .OrderBy(x => x.Id).AsQueryable();
             
-            var count = await query.CountAsync();
-            var items = await query.Skip((param.Page - 1) * param.Size).Take(param.Size).ToListAsync();
+            var count = query.CountAsync();
+            var items = query.Skip((param.Page - 1) * param.Size).Take(param.Size).ToListAsync();
 
-            return new PagedList<Video, VideoViewDto>(items, count, param.Page, param.Size, mapper);
+            return new PagedList<Video, VideoViewDto>(await items,await count, param.Page, param.Size, mapper);
         }
         public async Task<VideoViewDto> AddAsync(VideoCreateDto create)
         {
             if (create.File == null || create.File.Length <= 0)
                 throw new ToException(ToErrors.FILE_IS_EMPTY);
-            
+
+            var user = await userService.GetCurrentAsync();
+
             var video = new Video()
             {
                 Name = create.Name,
                 Size = create.File.Length,
-                User = await userService.GetCurrentAsync(),
+                UserId = user.Id,
                 IsDeleted = true
             };
 
@@ -74,29 +74,32 @@ namespace DigitalIndoor.Services.Implementations
             video.FileName = fileName;
             video.IsDeleted = false;
             await context.SaveChangesAsync();
+            video.User = user;
 
             return mapper.Map<VideoViewDto>(video);
         }
         public async Task<VideoViewDto> UpdateAsync(VideoUpdateDto update)
         {
-            var video = await context.Videos.FirstOrDefaultAsync(x=> x.Id == update.Id);
+            var video = await context.Videos
+                .Include(v => v.User)
+                .FirstOrDefaultAsync(x=> x.Id == update.Id);
             if (video is null)
                 throw new ToException(ToErrors.ENTITY_NOT_FOUND);
 
             video.Name = update.Name;
             await context.SaveChangesAsync();
-            await context.Entry(video).Reference(x=>x.User).LoadAsync();
             return mapper.Map<VideoViewDto>(video);
         }
         public async Task<VideoViewDto> DeleteAsync(int id)
         {
-            var video = await context.Videos.FirstOrDefaultAsync(x => x.Id == id);
+            var video = await context.Videos
+                .Include(v=> v.User)
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (video is null)
                 throw new ToException(ToErrors.ENTITY_NOT_FOUND);
 
             video.IsDeleted = true;
             await context.SaveChangesAsync();
-            await context.Entry(video).Reference(x => x.User).LoadAsync();
             return mapper.Map<VideoViewDto>(video);
         }
     }

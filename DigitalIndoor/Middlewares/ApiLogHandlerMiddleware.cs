@@ -1,6 +1,6 @@
-﻿using DigitalIndoor.Services;
+﻿using DigitalIndoorAPI.Services;
 
-namespace DigitalIndoor.Middlewares
+namespace DigitalIndoorAPI.Middlewares
 {
     public class ApiLogHandlerMiddleware
     {

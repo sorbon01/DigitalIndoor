@@ -1,19 +1,17 @@
-﻿using DigitalIndoor.DTOs;
-using DigitalIndoor.DTOs.Params;
-using DigitalIndoor.DTOs.Request;
-using DigitalIndoor.DTOs.Response;
-using DigitalIndoor.Models.Common;
+﻿using DigitalIndoorAPI.DTOs;
+using DigitalIndoorAPI.DTOs.Params;
+using DigitalIndoorAPI.DTOs.Request;
+using DigitalIndoorAPI.DTOs.Response;
+using DigitalIndoorAPI.Models.Common;
+using DigitalIndoorAPI.DTOs.Params;
+using DigitalIndoorAPI.Services;
 
-namespace DigitalIndoor.Services
+namespace DigitalIndoorAPI.Services
 {
-    public interface IUserService
+    public interface IUserService:ICrudService<User, UserViewDto, UserParam, UserCreateDto, UserUpdateDto>
     {
-        Task<PagedList<User, UserViewDto>> SearchAsync(NameAndPagedParam param);
-        Task<UserViewDto> AddAsync(UserCreateDto create);
-        Task<UserViewDto> UpdateAsync(UserUpdateDto update);
-        Task<UserViewDto> DeleteAsync(int id);
         Task<UserInfoDto> GetUserInfoAsync();
         Task<User> GetCurrentAsync();
-        Task<UserViewDto> ChangePasswordAsync(ChangePasswordDto changeObj, string username);
+        Task<UserViewDto> ChangePasswordAsync(ChangePasswordDto changeObj);
     }
 }

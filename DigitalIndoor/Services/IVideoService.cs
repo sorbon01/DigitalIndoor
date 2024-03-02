@@ -1,16 +1,15 @@
-﻿using DigitalIndoor.DTOs.Params;
-using DigitalIndoor.DTOs.Request;
-using DigitalIndoor.DTOs.Response;
-using DigitalIndoor.DTOs; 
-using DigitalIndoor.Models;
+﻿using DigitalIndoorAPI.DTOs.Params;
+using DigitalIndoorAPI.DTOs.Request;
+using DigitalIndoorAPI.DTOs.Response;
+using DigitalIndoorAPI.DTOs; 
+using DigitalIndoorAPI.Models;
+using DigitalIndoorAPI.Services;
+using DigitalIndoorAPI.DTOs.Params;
 
-namespace DigitalIndoor.Services
+namespace DigitalIndoorAPI.Services
 {
-    public interface IVideoService
+    public interface IVideoService:ICrudService<Video, VideoViewDto, VideoParam, VideoCreateDto, VideoUpdateDto>
     {
-        Task<PagedList<Video, VideoViewDto>> SearchAsync(NameDatePagedParam param);
-        Task<VideoViewDto> AddAsync(VideoCreateDto create);
-        Task<VideoViewDto> UpdateAsync(VideoUpdateDto update);
-        Task<VideoViewDto> DeleteAsync(int id);
+
     }
 }

@@ -1,8 +1,8 @@
-﻿using DigitalIndoor.DTOs.Response;
+﻿using DigitalIndoorAPI.DTOs.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DigitalIndoor.Controllers
+namespace DigitalIndoorAPI.Controllers.Base
 {
     [Authorize]
     [ApiController]
@@ -11,8 +11,6 @@ namespace DigitalIndoor.Controllers
     [ProducesResponseType(typeof(List<ValidationErrorDto>), StatusCodes.Status400BadRequest)]
     public class BaseController : ControllerBase
     {
-        protected string Username
-            =>  User.Identity.Name;
-            
+
     }
 }

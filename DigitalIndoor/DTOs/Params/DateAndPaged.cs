@@ -1,4 +1,4 @@
-﻿namespace DigitalIndoor.DTOs.Params
+﻿namespace DigitalIndoorAPI.DTOs.Params
 {
     public class DateAndPaged : PagedParam
     {

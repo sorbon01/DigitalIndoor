@@ -1,4 +1,4 @@
-﻿namespace DigitalIndoor.Exceptions
+﻿namespace DigitalIndoorAPI.Exceptions
 {
     public class ToErrors
     {

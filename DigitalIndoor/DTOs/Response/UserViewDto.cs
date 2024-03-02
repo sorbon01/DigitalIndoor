@@ -1,4 +1,4 @@
-﻿namespace DigitalIndoor.DTOs.Response
+﻿namespace DigitalIndoorAPI.DTOs.Response
 {
     public class UserViewDto
     {

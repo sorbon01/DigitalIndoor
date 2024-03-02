@@ -1,4 +1,4 @@
-﻿namespace DigitalIndoor.Services
+﻿namespace DigitalIndoorAPI.Services
 {
     public interface ITokenManager
     {

@@ -1,4 +1,4 @@
-﻿namespace DigitalIndoor.Models.Options
+﻿namespace DigitalIndoorAPI.Models.Options
 {
     public class BaseUser
     {

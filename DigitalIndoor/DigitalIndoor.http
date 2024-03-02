@@ -1,6 +1,6 @@
-@DigitalIndoor_HostAddress = http://localhost:5087
+@DigitalIndoorAPI_HostAddress = http://localhost:5087
 
-GET {{DigitalIndoor_HostAddress}}/weatherforecast/
+GET {{DigitalIndoorAPI_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

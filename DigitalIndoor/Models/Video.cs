@@ -1,7 +1,7 @@
-﻿using DigitalIndoor.Models.Abstraction;
-using DigitalIndoor.Models.Common;
+﻿using DigitalIndoorAPI.Models.Abstraction;
+using DigitalIndoorAPI.Models.Common;
 
-namespace DigitalIndoor.Models
+namespace DigitalIndoorAPI.Models
 {
     public class Video:DbRecord
     {

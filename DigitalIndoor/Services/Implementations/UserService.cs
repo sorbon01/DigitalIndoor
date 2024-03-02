@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
 using BCrypt.Net;
-using DigitalIndoor.DTOs;
-using DigitalIndoor.DTOs.Params;
-using DigitalIndoor.DTOs.Request;
-using DigitalIndoor.DTOs.Response;
-using DigitalIndoor.Exceptions;
-using DigitalIndoor.Models.Common;
-using DigitalIndoor.Models.DB;
+using DigitalIndoorAPI.DTOs;
+using DigitalIndoorAPI.DTOs.Params;
+using DigitalIndoorAPI.DTOs.Request;
+using DigitalIndoorAPI.DTOs.Response;
+using DigitalIndoorAPI.Exceptions;
+using DigitalIndoorAPI.Models.Common;
+using DigitalIndoorAPI.Models.DB;
+using DigitalIndoorAPI.DTOs.Params;
 using Microsoft.EntityFrameworkCore;
 
-namespace DigitalIndoor.Services.Implementations
+namespace DigitalIndoorAPI.Services.Implementations
 {
     public class UserService : IUserService
     {
@@ -22,18 +23,18 @@ namespace DigitalIndoor.Services.Implementations
             this.mapper = mapper;
             this.accountService = accountService;
         }
-        public async Task<PagedList<User, UserViewDto>> SearchAsync(NameAndPagedParam param)
+        public async Task<PagedList<User, UserViewDto>> SearchAsync(UserParam param)
         {
             var query = context.Users
                 .Include(x => x.Role)
                 .Where(x => !x.IsDeleted &&
-                (string.IsNullOrWhiteSpace(param.Name) || x.FullName.Contains(param.Name)))
+                (string.IsNullOrWhiteSpace(param.FullName) || x.FullName.Contains(param.FullName)))
                 .OrderBy(x => x.Id).AsQueryable();
 
-            var count = await query.CountAsync();
-            var users = await query.Skip((param.Page - 1) * param.Size).Take(param.Size).ToListAsync();
+            var count = query.CountAsync();
+            var users = query.Skip((param.Page - 1) * param.Size).Take(param.Size).ToListAsync();
 
-            return new PagedList<User, UserViewDto>(users, count, param.Page, param.Size, mapper);
+            return new PagedList<User, UserViewDto>(await users, await count, param.Page, param.Size, mapper);
         }
         public async Task<UserViewDto> AddAsync(UserCreateDto create)
         {
@@ -98,19 +99,9 @@ namespace DigitalIndoor.Services.Implementations
                 throw new ToException(ToErrors.USER_NOT_FOUND);
             return user;
         }
-        public async Task<User> GetByUsernameAsync(string username)
+        public async Task<UserInfoDto> GetUserInfoAsync()
         {
-            var user = await context.Users
-                 .AsNoTracking()
-                 .Include(x => x.Role)
-                 .FirstOrDefaultAsync(x => !x.IsDeleted && x.Username == username);
-
-            if (user is null)
-                throw new ToException(ToErrors.USER_NOT_FOUND);
-            return user;
-        }
-        public async Task<UserInfoDto> GetUserInfoAsync(string username)
-        {
+            var username = accountService.Username();
             var user = await context.Users
                 .Include(x => x.Role)
                 .Where(x => !x.IsDeleted && x.Username == username)
@@ -121,8 +112,21 @@ namespace DigitalIndoor.Services.Implementations
                 throw new ToException(ToErrors.USER_NOT_FOUND);
             return user;
         }
-        public async Task<UserViewDto> ChangePasswordAsync(ChangePasswordDto changeObj, string username)
+        public async Task<User> GetCurrentAsync()
         {
+            var username = accountService.Username();
+            var user = await context.Users
+                 .AsNoTracking()
+                 .Include(x => x.Role)
+                 .FirstOrDefaultAsync(x => !x.IsDeleted && x.Username == username);
+
+            if (user is null)
+                throw new ToException(ToErrors.USER_NOT_FOUND);
+            return user;
+        }
+        public async Task<UserViewDto> ChangePasswordAsync(ChangePasswordDto changeObj)
+        {
+            var username = accountService.Username();
             var user = await context.Users
                 .Include(x => x.Role)
                 .FirstOrDefaultAsync(x => !x.IsDeleted && x.Username == username);
@@ -139,6 +143,7 @@ namespace DigitalIndoor.Services.Implementations
             context.Entry(user).Reference(p => p.Role).Load();
             return mapper.Map<UserViewDto>(user);
         }
+
 
     }
 }

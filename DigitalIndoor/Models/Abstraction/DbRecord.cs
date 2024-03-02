@@ -1,4 +1,4 @@
-﻿namespace DigitalIndoor.Models.Abstraction
+﻿namespace DigitalIndoorAPI.Models.Abstraction
 {
     public abstract class DbRecord
     {

@@ -1,7 +1,7 @@
-﻿using DigitalIndoor.DTOs.Request;
-using DigitalIndoor.DTOs.Response;
+﻿using DigitalIndoorAPI.DTOs.Request;
+using DigitalIndoorAPI.DTOs.Response;
 
-namespace DigitalIndoor.Services
+namespace DigitalIndoorAPI.Services
 {
     public interface IAccountService
     {
@@ -9,6 +9,7 @@ namespace DigitalIndoor.Services
         JsonWebTokenDto RefreshAccessToken(string refreshToken);
         void RevokeRefreshToken(string username);
         void SignOut();
+        string Username();
 
     }
 }

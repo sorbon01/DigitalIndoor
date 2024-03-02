@@ -1,4 +1,4 @@
-﻿namespace DigitalIndoor.DTOs.Request
+﻿namespace DigitalIndoorAPI.DTOs.Request
 {
     public class UserUpdateDto:UserCreateDto
     {

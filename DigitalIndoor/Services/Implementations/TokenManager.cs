@@ -1,9 +1,9 @@
-﻿using DigitalIndoor.Models.Options;
+﻿using DigitalIndoorAPI.Models.Options;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 
-namespace DigitalIndoor.Services.Implementations
+namespace DigitalIndoorAPI.Services.Implementations
 {
     public class TokenManager:ITokenManager
     {

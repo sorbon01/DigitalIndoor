@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
-using DigitalIndoor.DTOs;
-using DigitalIndoor.DTOs.Params;
-using DigitalIndoor.DTOs.Request;
-using DigitalIndoor.DTOs.Response;
-using DigitalIndoor.Exceptions;
-using DigitalIndoor.Models.Common;
-using DigitalIndoor.Models.DB;
-using Microsoft.AspNetCore.Http.HttpResults;
+using DigitalIndoorAPI.DTOs;
+using DigitalIndoorAPI.DTOs.Params;
+using DigitalIndoorAPI.DTOs.Request;
+using DigitalIndoorAPI.DTOs.Response;
+using DigitalIndoorAPI.Exceptions;
+using DigitalIndoorAPI.Models.Common;
+using DigitalIndoorAPI.Models.DB;
 using Microsoft.EntityFrameworkCore;
 
-namespace DigitalIndoor.Services.Implementations
+namespace DigitalIndoorAPI.Services.Implementations
 {
     public class RoleService : IRoleService
     {
@@ -22,17 +21,17 @@ namespace DigitalIndoor.Services.Implementations
             this.context = context;
         }
 
-        public async Task<PagedList<Role, RoleViewDto>> SearchAsync(NameAndPagedParam param)
+        public async Task<PagedList<Role, RoleViewDto>> SearchAsync(RoleParam param)
         {
             var query = context.Roles
                 .Where(x => !x.IsDeleted &&
                 (string.IsNullOrWhiteSpace(param.Name) || x.Name.Contains(param.Name) ))
                 .OrderBy(x => x.Id).AsQueryable();
 
-            var count = await query.CountAsync();
-            var roles = await query.Skip((param.Page - 1) * param.Size).Take(param.Size).ToListAsync();
+            var count = query.CountAsync();
+            var roles = query.Skip((param.Page - 1) * param.Size).Take(param.Size).ToListAsync();
 
-            return new PagedList<Role, RoleViewDto>(roles, count, param.Page, param.Size, mapper);
+            return new PagedList<Role, RoleViewDto>(await roles, await count, param.Page, param.Size, mapper);
         }
         public async Task<RoleViewDto> AddAsync(RoleCreateDto create)
         {
@@ -46,7 +45,7 @@ namespace DigitalIndoor.Services.Implementations
         }
         public async Task<RoleViewDto> UpdateAsync(RoleUpdateDto update)
         {
-            var role = await context.Roles.AsNoTracking().FirstOrDefaultAsync(c => !c.IsDeleted && c.Id == update.Id );
+            var role = await context.Roles.FirstOrDefaultAsync(c => !c.IsDeleted && c.Id == update.Id );
             if (role is null)
                 throw new ToException(ToErrors.ROLE_NOT_FOUND);
 

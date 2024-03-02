@@ -1,4 +1,4 @@
-﻿namespace DigitalIndoor.Services.Implementations
+﻿namespace DigitalIndoorAPI.Services.Implementations
 {
     public class LogService:ILogService
     {

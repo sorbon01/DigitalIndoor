@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using DigitalIndoor.DTOs.Request;
-using DigitalIndoor.DTOs.Response;
-using DigitalIndoor.Exceptions;
-using DigitalIndoor.Models.Common;
-using DigitalIndoor.Models.DB;
-using DigitalIndoor.Models.Options;
+using DigitalIndoorAPI.DTOs.Request;
+using DigitalIndoorAPI.DTOs.Response;
+using DigitalIndoorAPI.Exceptions;
+using DigitalIndoorAPI.Models.Common;
+using DigitalIndoorAPI.Models.DB;
+using DigitalIndoorAPI.Models.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -12,7 +12,7 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace DigitalIndoor.Services.Implementations
+namespace DigitalIndoorAPI.Services.Implementations
 {
     public class AccountService : IAccountService
     {
@@ -92,7 +92,6 @@ namespace DigitalIndoor.Services.Implementations
                 context.SaveChanges();
             }
         }
-
         public void SignOut()
         {
             using(var scope = serviceProvider.CreateScope())
@@ -104,7 +103,17 @@ namespace DigitalIndoor.Services.Implementations
                 tokenManager.DeactivateCurrentAsync().Wait();
             }
         }
-
+        public string Username()
+        {
+            string? username;
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var httpContextAccessor = scope.ServiceProvider.GetService<IHttpContextAccessor>();
+                username = httpContextAccessor.HttpContext.User.Identity.Name;
+            }
+            if (username is not null) return username;
+            throw new ToException(ToErrors.USER_NOT_FOUND);
+        }
         JsonWebTokenDto generateJWT(BaseUser user)
         {
             var expires = DateTime.UtcNow.AddMinutes(options.ExpiryMinutes);

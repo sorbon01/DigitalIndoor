@@ -1,7 +1,7 @@
-﻿using DigitalIndoor.Services;
+﻿using DigitalIndoorAPI.Services;
 using System.Net;
 
-namespace DigitalIndoor.Middlewares
+namespace DigitalIndoorAPI.Middlewares
 {
     public class TokenManagerMiddleware: IMiddleware
     {

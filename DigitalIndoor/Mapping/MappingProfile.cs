@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
-using DigitalIndoor.DTOs.Request;
-using DigitalIndoor.DTOs.Response;
-using DigitalIndoor.Models;
-using DigitalIndoor.Models.Common;
-using DigitalIndoor.Models.Options;
+using DigitalIndoorAPI.DTOs.Request;
+using DigitalIndoorAPI.DTOs.Response;
+using DigitalIndoorAPI.Models;
+using DigitalIndoorAPI.Models.Common;
+using DigitalIndoorAPI.Models.Options;
+using DigitalIndoorAPI.DTOs.Request;
+using DigitalIndoorAPI.DTOs.Response;
 
-namespace DigitalIndoor.Mapping
+namespace DigitalIndoorAPI.Mapping
 {
     public class MappingProfile : Profile
     {
@@ -16,6 +18,8 @@ namespace DigitalIndoor.Mapping
             CreateMap<UserCreateDto, User>();
             CreateMap<UserUpdateDto, User>();
             CreateMap<RoleCreateDto, Role>();
+
+            CreateMap<PlayListCreateDto, PlayList>();
 
             // Model to Dto
 
@@ -29,6 +33,9 @@ namespace DigitalIndoor.Mapping
             CreateMap<User, BaseUser>();
             CreateMap<Role, RoleViewDto>();
             CreateMap<Video, VideoViewDto>()
+                .ForMember(x => x.UserFullName, y => y.MapFrom(c => c.User.FullName));
+
+            CreateMap<PlayList, PlayListViewDto>()
                 .ForMember(x => x.UserFullName, y => y.MapFrom(c => c.User.FullName));
 
 

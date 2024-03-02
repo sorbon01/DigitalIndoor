@@ -1,4 +1,4 @@
-﻿namespace DigitalIndoor.Models.Common
+﻿namespace DigitalIndoorAPI.Models.Common
 {
     class Functional
     {

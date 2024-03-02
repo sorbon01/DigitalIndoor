@@ -1,6 +1,6 @@
-﻿using DigitalIndoor.Models.Common;
+﻿using DigitalIndoorAPI.Models.Common;
 
-namespace DigitalIndoor.DTOs.Response
+namespace DigitalIndoorAPI.DTOs.Response
 {
     public class VideoViewDto
     {

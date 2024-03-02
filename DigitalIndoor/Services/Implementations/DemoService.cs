@@ -1,8 +1,8 @@
-﻿using DigitalIndoor.DTOs.Request;
-using DigitalIndoor.Models.DB;
+﻿using DigitalIndoorAPI.DTOs.Request;
+using DigitalIndoorAPI.Models.DB;
 using Microsoft.EntityFrameworkCore;
 
-namespace DigitalIndoor.Services.Implementations
+namespace DigitalIndoorAPI.Services.Implementations
 {
     public class DemoService : IDemoService
     {
@@ -26,7 +26,7 @@ namespace DigitalIndoor.Services.Implementations
                 return;
 
             // admin role
-            await roleService.AddAsync(new RoleCreateDto()
+            var roleAdmin = await roleService.AddAsync(new RoleCreateDto()
             {
                 Name = "Admin",
                 Functionals = new string[] { "allFunctionals" }
@@ -37,7 +37,7 @@ namespace DigitalIndoor.Services.Implementations
                 FullName = "Administrator",
                 Username = "admin",
                 Password = "admin",
-                RoleId = 1
+                RoleId = roleAdmin.Id
             });
 
         }

@@ -1,13 +1,14 @@
-﻿using DigitalIndoor.DTOs.Request;
-using DigitalIndoor.DTOs.Response;
-using DigitalIndoor.Services;
+﻿using DigitalIndoorAPI.Controllers.Base;
+using DigitalIndoorAPI.DTOs.Request;
+using DigitalIndoorAPI.DTOs.Response;
+using DigitalIndoorAPI.Services;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace DigitalIndoor.Controllers
+namespace DigitalIndoorAPI.Controllers
 {
     public class AccountController : BaseController
     {
