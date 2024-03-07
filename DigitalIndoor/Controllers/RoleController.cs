@@ -10,9 +10,7 @@ namespace DigitalIndoorAPI.Controllers
 {
     public class RoleController : CrudBaseController<IRoleService, Role, RoleViewDto, RoleParam, RoleCreateDto, RoleUpdateDto>
     {
-        public RoleController(IRoleService service) : base(service)
-        {
-        }
+        public RoleController(IRoleService service) : base(service) { }
 
         [HttpGet("functionals")]
         public ActionResult<List<string>> GetFunctionals()

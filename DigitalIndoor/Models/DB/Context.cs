@@ -26,6 +26,7 @@ namespace DigitalIndoorAPI.Models.DB
         public DbSet<PlayList> PlayLists { get; set; }
         public DbSet<PlayListsInOrder> PlayListsInOrder { get; set; }
         public DbSet<Terminal> Terminals { get; set; }
+        public DbSet<TerminalLog> TerminalLogs { get; set; }
         public DbSet<Video> Videos { get; set; }
 
     }
